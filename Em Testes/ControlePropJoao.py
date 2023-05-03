@@ -56,20 +56,6 @@ while True:
         distF = ultraF.distance()
         distD = ultraD.distance()
 
-        #Girar carrinho em 90 graus
-        if distD >= 210:
-            motorD.run(-75)
-            motorE.run(75)
-
-        elif distD <= 210:
-            motorD.run(0)
-            motorE.run(0)
-
-
-        #Fazer a curva
-
-
-
         print(distD)
         print(distF)
 
