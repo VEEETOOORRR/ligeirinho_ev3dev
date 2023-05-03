@@ -25,7 +25,11 @@ ultraF = UltrasonicSensor(Port.S1)
 ultraD = UltrasonicSensor(Port.S4)
 
 while True:
-    while seguirLinha == True and desvio == False:
+
+    motorD.run(0)
+    motorE.run(0)
+
+    while (seguirLinha == True) and (desvio == False):
 
         valor_esq = int(corE.reflection())
         valor_dir = int(corD.reflection())
@@ -44,17 +48,29 @@ while True:
         motorD.run(mD+comp)
         motorE.run(mE)
         
-    while seguirLinha == False and desvio == True:
+    motorD.run(0)
+    motorE.run(0)
+
+    while (seguirLinha == False) and (desvio == True):
 
         distF = ultraF.distance()
         distD = ultraD.distance()
 
-        if distF <= 200:
-            valorDesF = Vb + distF/4
-            valorDesD = Vb - distD/4
-        if distD <= 150:
-            valorDesF = Vb - distF/4
-            valorDesD = Vb + distD/4
+        #Girar carrinho em 90 graus
+        if distD >= 210:
+            motorD.run(-75)
+            motorE.run(75)
 
-        motorE.run(valorDesF)
-        motorD.run(valorDesD)
+        elif distD <= 210:
+            motorD.run(0)
+            motorE.run(0)
+
+
+        #Fazer a curva
+
+
+
+        print(distD)
+        print(distF)
+
+        wait(1000)
