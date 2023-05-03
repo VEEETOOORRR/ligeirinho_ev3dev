@@ -1,36 +1,54 @@
 #!/usr/bin/env pybricks-micropython
 
+#Vinicius
+
 from pybricks.hubs import EV3Brick
-from pybricks.ev3devices import Motor, ColorSensor
+from pybricks.ev3devices import Motor, ColorSensor, UltrasonicSensor
 from pybricks.parameters import Port
 from pybricks.tools import wait
 
-
 ev3 = EV3Brick()
 
-motor_esq = Motor(Port.B)
-motor_dir = Motor(Port.C)
+kp = 4
+vb = 157
 
-cor_esq = ColorSensor(Port.S3)
+left_motor = Motor(Port.B)
+right_motor = Motor(Port.D)
+
+ultraF = UltrasonicSensor(Port.S1)
+ultraD = UltrasonicSensor(Port.S4)
+
 cor_dir = ColorSensor(Port.S2)
+cor_esq = ColorSensor(Port.S3)
+
 
 while True:
 
-    valor_esq = int(cor_esq.reflection())
-    valor_dir = int(cor_dir.reflection())
+    distF = ultraF.distance()
+    distD = ultraD.distance() 
 
-    if valor_esq >= 50 and valor_dir >= 50:
-        motor_esq.run(2.5*valor_esq)
-        motor_dir.run(2.5*valor_dir)
-    
-    elif valor_esq < 50 and valor_esq > valor_dir:
-        motor_esq.run(0.2*valor_esq)
-        motor_dir.run(2.5*valor_dir)
-    
-    elif valor_dir < 50 and valor_dir > valor_esq:
-        motor_esq.run(2.5*valor_esq)
-        motor_dir.run(0.2*valor_dir)
-    
+    valorE = cor_esq.reflection()
+    valorD = cor_dir.reflection()
+
+    dif = valorE - valorD
+
+    if distF <= 120 and distD >= 150:
+        while True:
+            if distD <= 150:
+                right_motor.run(100)
+                left_motor.run(100)
+                wait(150)
+                break
+            else:
+                distD = ultraD.distance()
+                right_motor.run(-150)
+                left_motor.run(150)
+                break
+            
+
     else:
-        motor_esq.run(2.5*valor_esq)
-        motor_dir.run(2.5*valor_dir)
+        vel_direito = vb - kp*dif
+        vel_esquerdo = vb + kp*dif 
+
+        right_motor.run(vel_direito)
+        left_motor.run(vel_esquerdo)
