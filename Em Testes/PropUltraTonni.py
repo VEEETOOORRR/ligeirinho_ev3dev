@@ -42,8 +42,8 @@ while True:
     
     elif distF <= 20:
         
-        vel_esquerdo = (a*valorEsquerdo + b) - (((a*valorEsquerdo + b)/10)*distF - 1.5*distF)
-        vel_direito = (a*valorEsquerdo + b) - (((a*valorEsquerdo + b)/10)*distF - 1.5*distF)
+        vel_esquerdo = (a*valorEsquerdo + b)-(((a*valorEsquerdo + b)/10)*distF - 1.5*distF)
+        vel_direito = (a*valorDireito + b)-(((a*valorDireito + b)/10)*distF - 1.5*distF)
 
         right_motor.run(vel_direito)
         left_motor.run(vel_esquerdo)
