@@ -6,6 +6,7 @@ from pybricks.parameters import Port
 from pybricks.tools import wait
 
 valor1 = 250
+valor2 = 50
 
 a = (valor1 - valor2)/73
 b = valor1 - (76 * a)
