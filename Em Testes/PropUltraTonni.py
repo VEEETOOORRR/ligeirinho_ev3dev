@@ -22,25 +22,58 @@ ultraD = UltrasonicSensor(Port.S4)
 cor_dir = ColorSensor(Port.S2)
 cor_esq = ColorSensor(Port.S3)
 
-#PC = True
+distF = int(ultraF.distance())/10
+distD = int(ultraD.distance())/10
 
-while True:
+vel_direito = 0
+vel_esquerdo = 0
 
-    distF = int(ultraF.distance())/10
-    distD = int(ultraD.distance())/10
+def seguir_linha():
 
     valorEsquerdo = (cor_esq.reflection())
     valorDireito = (cor_dir.reflection())
 
-    if distF > 20:
+    vel_direito = a*valorDireito + b
+    vel_esquerdo = a*valorEsquerdo + b
 
-        vel_direito = a*valorDireito + b
-        vel_esquerdo = a*valorEsquerdo + b
+    right_motor.run(vel_direito)
+    left_motor.run(vel_esquerdo)
 
-        right_motor.run(vel_direito)
+def contornar():
+
+    right_motor.run() # rotacionar robô pro sensor lateral
+    left_motor.run()
+
+
+def sensor_lateral():
+
+    if distD > 40:
+        vel_direito = 0
+        vel_esquerdo = 250
+
+    else:
+        vel_direito = (-12.5*distD + 500)
+        vel_esquerdo = 250
+
+        right_motor.run(vel_direito) 
         left_motor.run(vel_esquerdo)
-    
-    elif distF <= 20:
+
+while True:
+    distD = int(ultraD.distance())/10
+    sensor_lateral()
+    wait(10)
+
+
+
+
+
+
+
+
+
+
+
+'''    elif distF <= 20:
         
         vel_esquerdo = (a*valorEsquerdo + b)-(((a*valorEsquerdo + b)/10)*distF - 1.5*distF)
         vel_direito = (a*valorDireito + b)-(((a*valorDireito + b)/10)*distF - 1.5*distF)
@@ -50,7 +83,7 @@ while True:
 
     wait(10)
 
-    '''elif distF < 80:
+    elif distF < 80:
 
         left_motor.run(-100)
         right_motor.run(100)
