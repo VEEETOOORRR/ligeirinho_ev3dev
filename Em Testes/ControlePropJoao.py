@@ -8,12 +8,10 @@ from pybricks.tools import wait
 seguirLinha = True
 desvio = False
 
-leoleorleorleor = 0
-
 erro = valorDesD = valorDesF= 0
 Vb = 150
 Kp = 4
-comp = 40       
+comp = 40
 
 ev3 = EV3Brick()
 
