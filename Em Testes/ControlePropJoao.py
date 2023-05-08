@@ -8,6 +8,8 @@ from pybricks.tools import wait
 seguirLinha = True
 desvio = False
 
+leoleorleorleor = 0
+
 erro = valorDesD = valorDesF= 0
 Vb = 150
 Kp = 4
