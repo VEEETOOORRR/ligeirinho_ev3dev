@@ -22,18 +22,30 @@ ultraD = UltrasonicSensor(Port.S4)
 cor_dir = ColorSensor(Port.S2)
 cor_esq = ColorSensor(Port.S3)
 
-def linha():
-    distF = ultraF.distance()
-    while distF > 200:
-        distF = ultraF.distance()
-        refD = cor_dir.reflection()
-        refE = cor_esq.reflection()
-        dif = refD - refE
+def desvio ():
+    difD = dD - 200
+    velE = vb + kpd*difD
+    velD = vb - kpd*difD
+    left_motor.run(velE)
+    right_motor.run(velD)
 
-        velD = vb + kpl*dif
-        velE = vb - kpl*dif
+def seglinha ():
+    difL = vE - vD
+    velE = vb + kpl*difL
+    velD = vb - kpl*difL
+    left_motor.run(velE)
+    right_motor.run(velD)
 
-        left_motor.run(velE)
-        right_motor.run(velD)
+while True:
 
-linha()
+    dF = ultraF.distance()
+    dD = ultraD.distance()
+
+    vD = cor_dir.reflection()
+    vE = cor_esq.reflection()
+
+    if dF <= 200:
+        desvio()
+    else:
+        seglinha()
+    
