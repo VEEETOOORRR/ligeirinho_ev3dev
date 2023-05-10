@@ -19,9 +19,10 @@ ultraF = UltrasonicSensor(Port.S1)
 ultraD = UltrasonicSensor(Port.S4) 
 
 def Reajustar():
-    print("Hora de reajustar")
-    motorE.run(0)
-    motorD.run(0)
+    while True:
+        print("Hora de reajustar")
+        motorE.run(0)
+        motorD.run(0)
 
 def Ajustar():
     while True:
@@ -73,11 +74,9 @@ def DesviarObstaculo():
             motorE.run(100)
         wait(10)
 
-        if (valor_esq <= 20) or (valor_dir <= 20):
+        if (valor_esq <= 10) or (valor_dir <= 10):
             Reajustar()
             break
-        else:
-            pass
         
 
 while True:
