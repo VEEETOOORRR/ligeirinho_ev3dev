@@ -68,10 +68,30 @@ def sensor_lateral():
         vel_esquerdo = 50
 
 while True:
-    distD = int(ultraD.distance())/10
+    '''distD = int(ultraD.distance())/10
     sensor_lateral()
-    wait(50)
+    wait(50)'''
 
+    KpD = 1.5
+    VbD = 80
+    erroD = 0
+    
+    SensorD = ultraD.distance()
+
+    if SensorD < 200:
+
+        erroD = (SensorD/10) - 15
+        VelED = VbD + KpD * erroD
+        VelDD = VbD - KpD * erroD
+
+        right_motor.run(VelDD)
+        left_motor.run(VelED)
+    
+    else:
+
+        right_motor.run(60)
+        left_motor.run(100)
+    wait(15)
 
 
 
