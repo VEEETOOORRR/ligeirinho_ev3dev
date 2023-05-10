@@ -1,5 +1,7 @@
 #!/usr/bin/env pybricks-micropython
 
+# Autor: João
+
 from pybricks.hubs import EV3Brick
 from pybricks.ev3devices import Motor, ColorSensor, UltrasonicSensor
 from pybricks.parameters import Port
@@ -46,12 +48,12 @@ def DesviarObstaculo():
         KpD = 1.5
         VbD = 80
         erroD = 0
-    
+
         SensorD = ultraD.distance()
 
         if SensorD < 200:
 
-            erroD = (SensorD/10) - 15
+            erroD = (SensorD/10) - 8.5
             VelED = VbD + KpD * erroD
             VelDD = VbD - KpD * erroD
 
