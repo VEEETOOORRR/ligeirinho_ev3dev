@@ -12,7 +12,10 @@ ev3 = EV3Brick()
 motorE = Motor(Port.B)
 motorD = Motor(Port.D)
 
-corE = ColorSensor(Port.S3)
+# S3 = Direito
+# S2 = Esquerdo
+
+corE = ColorSensor(Port.S3) 
 corD = ColorSensor(Port.S2)
 
 ultraF = UltrasonicSensor(Port.S1)
@@ -29,8 +32,6 @@ def Reajustar():
             motorD.run(0)
             break
     pass
-
-
 
 def Ajustar():
     while True:
@@ -63,12 +64,11 @@ def DesviarObstaculo():
         VbD = 100
         erroD = 0
 
-        valor_esq = corE.reflection()
         valor_dir = corD.reflection()
         SensorD = ultraD.distance()
 
-        if SensorD < 200:
-
+        if SensorD <= 200:
+            
             erroD = (SensorD/10) - 8.5
             VelED = VbD + KpD * erroD
             VelDD = VbD - KpD * erroD
@@ -86,7 +86,6 @@ def DesviarObstaculo():
             Reajustar()
             break
         
-
 while True:
     SensorF = ultraF.distance()
 
@@ -95,6 +94,3 @@ while True:
         DesviarObstaculo()
     else:
         SeguirLinha()
-
-
-    

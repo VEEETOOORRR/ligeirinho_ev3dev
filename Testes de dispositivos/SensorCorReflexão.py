@@ -9,8 +9,8 @@ from pybricks.tools import wait
 
 ev3 = EV3Brick()
 
-corE = ColorSensor(Port.S3)
-corD = ColorSensor(Port.S2)
+corE = ColorSensor(Port.S2)
+corD = ColorSensor(Port.S3)
 
 while True:
     SensorEsquerdo = int(corE.reflection())
