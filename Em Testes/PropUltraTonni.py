@@ -8,8 +8,7 @@ from pybricks.tools import wait
 valor1 = 250 #velocidade maxima
 valor2 = 50 #velocidade minimia
 
-a = (valor1 - valor2)/73 #coeficientes da função afim da velocidade
-b = valor1 - (76 * a)
+
 
 ev3 = EV3Brick()
 
@@ -22,25 +21,68 @@ ultraD = UltrasonicSensor(Port.S4)
 cor_dir = ColorSensor(Port.S2)
 cor_esq = ColorSensor(Port.S3)
 
-#PC = True
+distF = int(ultraF.distance())/10
+distD = int(ultraD.distance())/10
 
-while True:
+vel_direito = 0
+vel_esquerdo = 0
 
-    distF = int(ultraF.distance())/10
-    distD = int(ultraD.distance())/10
+def seguir_linha(valor1, valor2):
 
-    valorEsquerdo = (cor_esq.reflection())
-    valorDireito = (cor_dir.reflection())
+    a = (valor1 - valor2)/73 #coeficientes da função afim da velocidade
+    b = valor1 - (76 * a)
 
-    if distF > 20:
+    while True:
+            
+        valorEsquerdo = (cor_esq.reflection())
+        valorDireito = (cor_dir.reflection())
 
         vel_direito = a*valorDireito + b
         vel_esquerdo = a*valorEsquerdo + b
 
         right_motor.run(vel_direito)
         left_motor.run(vel_esquerdo)
-    
-    elif distF <= 20:
+        wait(10)
+
+def contornar():
+
+    right_motor.run() # rotacionar robô pro sensor lateral
+    left_motor.run()
+
+
+def sensor_lateral():
+
+    '''if distD >= 40:
+        vel_direito = 0
+        vel_esquerdo = 200
+'''
+    if distD > 10:
+        vel_direito = (-2*distD + 90)
+        vel_esquerdo = 50
+
+        right_motor.run(vel_direito) 
+        left_motor.run(vel_esquerdo)
+
+    elif distD <= 10:
+        vel_direito = 50
+        vel_esquerdo = 50
+
+while True:
+    distD = int(ultraD.distance())/10
+    sensor_lateral()
+    wait(50)
+
+
+
+
+
+
+
+
+
+
+
+'''    elif distF <= 20:
         
         vel_esquerdo = (a*valorEsquerdo + b)-(((a*valorEsquerdo + b)/10)*distF - 1.5*distF)
         vel_direito = (a*valorDireito + b)-(((a*valorDireito + b)/10)*distF - 1.5*distF)
@@ -50,7 +92,7 @@ while True:
 
     wait(10)
 
-    '''elif distF < 80:
+    elif distF < 80:
 
         left_motor.run(-100)
         right_motor.run(100)
