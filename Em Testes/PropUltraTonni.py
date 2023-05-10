@@ -5,126 +5,84 @@ from pybricks.ev3devices import Motor, ColorSensor, UltrasonicSensor
 from pybricks.parameters import Port
 from pybricks.tools import wait
 
-valor1 = 250 #velocidade maxima
-valor2 = 50 #velocidade minimia
-
-
-
 ev3 = EV3Brick()
 
-left_motor = Motor(Port.B)
-right_motor = Motor(Port.D)
+motorE = Motor(Port.B)
+motorD = Motor(Port.D)
+
+corE = ColorSensor(Port.S3)
+corD = ColorSensor(Port.S2)
 
 ultraF = UltrasonicSensor(Port.S1)
-ultraD = UltrasonicSensor(Port.S4)
+ultraD = UltrasonicSensor(Port.S4) 
 
-cor_dir = ColorSensor(Port.S2)
-cor_esq = ColorSensor(Port.S3)
+def Ajustar():
+    while True:
+        SensorD = int(ultraD.distance())
+        motorE.run(-60)
+        motorD.run(60)
+        if SensorD <= 200:
+            break
+    pass
 
-distF = int(ultraF.distance())/10
-distD = int(ultraD.distance())/10
+def SeguirLinha():
+    valor1 = 250
+    valor2 = 50
 
-vel_direito = 0
-vel_esquerdo = 0
-
-def seguir_linha(valor1, valor2):
-
-    a = (valor1 - valor2)/73 #coeficientes da função afim da velocidade
+    a = (valor1 - valor2)/73
     b = valor1 - (76 * a)
 
-    while True:
-            
-        valorEsquerdo = (cor_esq.reflection())
-        valorDireito = (cor_dir.reflection())
 
-        vel_direito = a*valorDireito + b
-        vel_esquerdo = a*valorEsquerdo + b
+    valorEsquerdo = (corE.reflection())
+    valorDireito = (corD.reflection())
 
-        right_motor.run(vel_direito)
-        left_motor.run(vel_esquerdo)
-        wait(10)
+    vel_direito = a*valorDireito + b
+    vel_esquerdo = a*valorEsquerdo + b
 
-def contornar():
+    motorD.run(vel_direito)
+    motorE.run(vel_esquerdo)
 
-    right_motor.run() # rotacionar robô pro sensor lateral
-    left_motor.run()
+def DesviarObstaculo():
+    while (corD.reflection() > 10 and corE.reflection() > 10):
+        KpD = 1.5
+        VbD = 80
+        erroD = 0
 
+        SensorD = ultraD.distance()
 
-def sensor_lateral():
+        if SensorD < 200:
 
-    '''if distD >= 40:
-        vel_direito = 0
-        vel_esquerdo = 200
-'''
-    if distD > 10:
-        vel_direito = (-2*distD + 90)
-        vel_esquerdo = 50
+            erroD = (SensorD/10) - 10
+            VelED = VbD + KpD * erroD
+            VelDD = VbD - KpD * erroD
 
-        right_motor.run(vel_direito) 
-        left_motor.run(vel_esquerdo)
-
-    elif distD <= 10:
-        vel_direito = 50
-        vel_esquerdo = 50
-
-while True:
-    '''distD = int(ultraD.distance())/10
-    sensor_lateral()
-    wait(50)'''
-
-    KpD = 1.5
-    VbD = 80
-    erroD = 0
+            motorD.run(VelDD)
+            motorE.run(VelED)
     
-    SensorD = ultraD.distance()
-
-    if SensorD < 200:
-
-        erroD = (SensorD/10) - 15
-        VelED = VbD + KpD * erroD
-        VelDD = VbD - KpD * erroD
-
-        right_motor.run(VelDD)
-        left_motor.run(VelED)
-    
-    else:
-
-        right_motor.run(60)
-        left_motor.run(100)
-    wait(15)
-
-
-
-
-
-
-
-
-
-
-'''    elif distF <= 20:
-        
-        vel_esquerdo = (a*valorEsquerdo + b)-(((a*valorEsquerdo + b)/10)*distF - 1.5*distF)
-        vel_direito = (a*valorDireito + b)-(((a*valorDireito + b)/10)*distF - 1.5*distF)
-
-        right_motor.run(vel_direito)
-        left_motor.run(vel_esquerdo)
-
-    wait(10)
-
-    elif distF < 80:
-
-        left_motor.run(-100)
-        right_motor.run(100)
-        wait(100)
-
-    if distD < 100:
-
-           left_motor.run(150)
-            right_motor.run(150)
-        
         else:
 
-            left_motor.run(100)
-            right_motor.run(-100)
-            wait(100)'''
+            motorD.run(60)
+            motorE.run(100)
+        
+        valorEsquerdo = (corE.reflection())
+        valorDireito = (corD.reflection())
+        
+def Baliza():
+    
+
+
+while True:
+    SensorF = ultraF.distance()
+
+    if SensorF <= 150:
+        Ajustar()
+        DesviarObstaculo()
+        Baliza()
+
+    else:
+        SeguirLinha()
+
+
+
+
+    
