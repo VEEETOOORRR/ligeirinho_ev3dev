@@ -18,8 +18,8 @@ cor_esq = ColorSensor(Port.S2)
 
 while True:
 
-    valor_esq = int(cor_esq.reflection())
-    valor_dir = int(cor_dir.reflection())
+    valor_esq = cor_esq.reflection()
+    valor_dir = cor_dir.reflection()
     dif = valor_esq - valor_dir
 
     vD = b + kp*dif
