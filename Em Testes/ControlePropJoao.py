@@ -17,9 +17,13 @@ ultraF = UltrasonicSensor(Port.S1)
 ultraD = UltrasonicSensor(Port.S4) 
 
 def Ajustar():
-    while ultraD.distance() <= 160:
+    while True:
+        SensorD = int(ultraD.distance())
         motorE.run(-100)
         motorD.run(100)
+        if SensorD <= 160:
+            break
+    pass
 
 def SeguirLinha():
     erro = VelE = VelD = 0
@@ -38,8 +42,8 @@ def SeguirLinha():
     motorE.run(VelE)
 
 def DesviarObstaculo():
-    KpD = 3
-    VbD = 130
+    KpD = 2
+    VbD = 80
     erroD = 0
     
     SensorD = int(ultraD.distance())
