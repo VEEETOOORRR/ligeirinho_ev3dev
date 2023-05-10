@@ -20,6 +20,8 @@ ultraD = UltrasonicSensor(Port.S4)
 
 def Reajustar():
     print("Hora de reajustar")
+    motorE.stop()
+    motorD.stop()
 
 def Ajustar():
     while True:
