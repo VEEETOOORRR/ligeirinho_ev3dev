@@ -8,8 +8,7 @@ from pybricks.tools import wait
 valor1 = 250 #velocidade maxima
 valor2 = 50 #velocidade minimia
 
-a = (valor1 - valor2)/73 #coeficientes da função afim da velocidade
-b = valor1 - (76 * a)
+
 
 ev3 = EV3Brick()
 
@@ -28,16 +27,22 @@ distD = int(ultraD.distance())/10
 vel_direito = 0
 vel_esquerdo = 0
 
-def seguir_linha():
+def seguir_linha(valor1, valor2):
 
-    valorEsquerdo = (cor_esq.reflection())
-    valorDireito = (cor_dir.reflection())
+    a = (valor1 - valor2)/73 #coeficientes da função afim da velocidade
+    b = valor1 - (76 * a)
 
-    vel_direito = a*valorDireito + b
-    vel_esquerdo = a*valorEsquerdo + b
+    while True:
+            
+        valorEsquerdo = (cor_esq.reflection())
+        valorDireito = (cor_dir.reflection())
 
-    right_motor.run(vel_direito)
-    left_motor.run(vel_esquerdo)
+        vel_direito = a*valorDireito + b
+        vel_esquerdo = a*valorEsquerdo + b
+
+        right_motor.run(vel_direito)
+        left_motor.run(vel_esquerdo)
+        wait(10)
 
 def contornar():
 
@@ -47,21 +52,25 @@ def contornar():
 
 def sensor_lateral():
 
-    if distD > 40:
+    '''if distD >= 40:
         vel_direito = 0
-        vel_esquerdo = 250
-
-    else:
-        vel_direito = (-12.5*distD + 500)
-        vel_esquerdo = 250
+        vel_esquerdo = 200
+'''
+    if distD > 10:
+        vel_direito = (-2*distD + 90)
+        vel_esquerdo = 50
 
         right_motor.run(vel_direito) 
         left_motor.run(vel_esquerdo)
 
+    elif distD <= 10:
+        vel_direito = 50
+        vel_esquerdo = 50
+
 while True:
     distD = int(ultraD.distance())/10
     sensor_lateral()
-    wait(10)
+    wait(50)
 
 
 
