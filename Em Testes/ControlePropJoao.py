@@ -16,31 +16,50 @@ corD = ColorSensor(Port.S2)
 ultraF = UltrasonicSensor(Port.S1)
 ultraD = UltrasonicSensor(Port.S4) 
 
-def SegueLinhas ():
-    while True:
-        erro = 0
-        Vb = 150
-        Kp = 4
-        comp = 40
+def Ajustar():
+    while ultraD.distance() <= 200:
+        motorE.run(-100)
+        motorD.run(100)
 
-        valor_esq = int(corE.reflection())
-        valor_dir = int(corD.reflection())
+def SeguirLinha():
+    erro = VelE = VelD = 0
+    Vb = 150
+    Kp = 4
+    comp = 40
 
-        distF = ultraF.distance()
+    valor_esq = corE.reflection()
+    valor_dir = corD.reflection()
 
-        if distF <= 200:
-            break
+    erro = valor_esq - valor_dir + comp
+    VelE = Vb + Kp * erro
+    VelD = Vb - Kp * erro
 
-        erro = (valor_esq - valor_dir) + 10
+    motorD.run(VelD)
+    motorE.run(VelE)
 
-        mE = Vb + Kp*erro
-        mD = Vb - Kp*erro
+def DesviarObstaculo():
+    KpD = 3
+    VbD = 130
+    erroD = 0
+    
+    SensorD = ultraD.distance()
 
-        motorD.run(mD+comp)
-        motorE.run(mE)
+    erroD = (SensorD/10) - 250
+    VelED = VbD + KpD * erroD
+    VelDD = VbD - KpD * erroD
 
-def DesvioObstaculo ():
-    while True:
-        
+    motorD.run(VelDD)
+    motorE.run(VelED)
 
-SegueLinhas()
+
+while True:
+    SensorF = ultraF.distance()
+
+    if SensorF <= 200:
+        Ajustar()
+        DesviarObstaculo()
+    else:
+        SeguirLinha()
+
+
+    
