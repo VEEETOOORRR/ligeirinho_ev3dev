@@ -68,6 +68,22 @@ def DesviarObstaculo():
         valorDireito = (corD.reflection())
         
 def Baliza():
+    valor1 = 250
+    valor2 = 50
+
+    a = (valor1 - valor2)/73
+    b = valor1 - (76 * a)
+
+
+    valorEsquerdo = (corE.reflection())
+    valorDireito = (corD.reflection())
+
+
+    vel_direito = a*valorDireito + b
+    vel_esquerdo = a*valorEsquerdo + b
+
+    motorD.run(vel_direito)
+    motorE.run(vel_esquerdo)
     
 
 
