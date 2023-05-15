@@ -48,20 +48,22 @@ def Reajustar():
 
 def DesvioProp ():
     while True:
-        KpD = 2
-        VbD = 100
+        KpD = 3
+        VbD = 150
 
         SenD = int(ultraD.distance())
 
         ErroD = SenD - 80
 
-        if ErroD <= 10 or ErroD >= -10:
-            motorD.run(VbD)
-            motorE.run(VbD)
-        elif 
-            motorD.run()
-            motorE.run()
+        print(ErroD)
 
+        if (ErroD >= -10) and (ErroD <= 10):
+            motorD.run(VbD + KpD * ErroD)
+            motorE.run(VbD - KpD * ErroD)
+        else:
+            motorD.run(VbD - 50)
+            motorE.run(VbD)
+            
 # ======================================== Giros ==================================================
 
 def GirarE ():
