@@ -60,14 +60,14 @@ def SeguirLinha():
 
 def DesviarObstaculo():
     while True:
-        KpD = 2
-        VbD = 100
+        KpD = 2.5
+        VbD = 120
         erroD = 0
 
         valor_dir = corD.reflection()
         SensorD = ultraD.distance()
 
-        if SensorD <= 200:
+        if SensorD <= 100:
             
             erroD = (SensorD/10) - 8.5
             VelED = VbD + KpD * erroD
@@ -89,7 +89,7 @@ def DesviarObstaculo():
 while True:
     SensorF = ultraF.distance()
 
-    if SensorF <= 200:
+    if SensorF <= 100:
         Ajustar()
         DesviarObstaculo()
     else:
