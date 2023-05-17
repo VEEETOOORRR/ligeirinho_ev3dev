@@ -43,16 +43,24 @@ def SeguirLinha():
     motorE.run(vel_esquerdo)
 
 def DesviarObstaculo():
-    while (corD.reflection() > 10 and corE.reflection() > 10):
-        KpD = 1.5
-        VbD = 80
+    #while (corD.reflection() > 10 and corE.reflection() > 10): 
+
+    sensorD = int(ultraD.distance())/10
+    vbD = 200
+    velED = ((sensorD-10)**3)/200 + 100
+    velDD = (-(sensorD-10)**3)/200 + 100
+
+    motorD.run(velDD)
+    motorE.run(velED)
+    '''KpD = 3
+        VbD = 200
         erroD = 0
 
         SensorD = ultraD.distance()
 
         if SensorD < 200:
 
-            erroD = (SensorD/10) - 10
+            erroD = (SensorD/10) - 8
             VelED = VbD + KpD * erroD
             VelDD = VbD - KpD * erroD
 
@@ -61,11 +69,11 @@ def DesviarObstaculo():
     
         else:
 
-            motorD.run(60)
+            motorD.run(40)
             motorE.run(100)
         
         valorEsquerdo = (corE.reflection())
-        valorDireito = (corD.reflection())
+        valorDireito = (corD.reflection())'''
         
 def Baliza():
     valor1 = 250
@@ -88,15 +96,16 @@ def Baliza():
 
 
 while True:
-    SensorF = ultraF.distance()
+    #SensorF = ultraF.distance()
 
-    if SensorF <= 150:
-        Ajustar()
-        DesviarObstaculo()
-        Baliza()
+    #if SensorF <= 150:
+        #Ajustar()
+    DesviarObstaculo()
+    wait(10)
+        #Baliza()
 
-    else:
-        SeguirLinha()
+    #else:
+        #SeguirLinha()
 
 
 
