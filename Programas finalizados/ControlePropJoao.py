@@ -67,13 +67,17 @@ def DesviarObstaculo():
         valor_dir = corD.reflection()
         SensorD = ultraD.distance()
 
-        erroD = (SensorD/10) - 8.5
-        VelED = VbD + KpD * erroD
-        VelDD = VbD - KpD * erroD
+        if SensorD <= 200:
+            erroD = (SensorD/10) - 8.5
+            VelED = VbD + KpD * erroD
+            VelDD = VbD - KpD * erroD
 
-        motorD.run(VelDD)
-        motorE.run(VelED)
-
+            motorD.run(VelDD)
+            motorE.run(VelED)
+        else:
+            motorD.run(70)
+            motorE.run(100)
+ 
         if (valor_dir <= 10):
             Reajustar()
             break
