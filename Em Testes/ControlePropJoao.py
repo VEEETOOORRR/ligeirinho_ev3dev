@@ -44,9 +44,8 @@ def Ajustar():
 
 def SeguirLinha():
     erro = VelE = VelD = 0
-    Vb = 170
+    Vb = 180
     Kp = 4
-    comp = 40
 
     valor_esq = corE.reflection()
     valor_dir = corD.reflection()
@@ -61,22 +60,18 @@ def SeguirLinha():
 def DesviarObstaculo():
     while True:
         KpD = 2
-        VbD = 150
+        VbD = 300
         erroD = 0
 
         valor_dir = corD.reflection()
         SensorD = ultraD.distance()
 
-        if SensorD <= 100:
-            erroD = (SensorD/10) - 8.5
-            VelED = VbD + KpD * erroD
-            VelDD = VbD - KpD * erroD
+        erroD = SensorD - 100
+        VelED = VbD + KpD * erroD
+        VelDD = VbD - KpD * erroD
 
-            motorD.run(VelDD)
-            motorE.run(VelED)
-        else:
-            motorD.run(70)
-            motorE.run(100)
+        motorD.run(VelDD)
+        motorE.run(VelED)
  
         if (valor_dir <= 20):
             Reajustar()
