@@ -61,7 +61,7 @@ def SeguirLinha():
 def DesviarObstaculo():
     while True:
         KpD = 2
-        VbD = 100
+        VbD = 150
         erroD = 0
 
         valor_dir = corD.reflection()
