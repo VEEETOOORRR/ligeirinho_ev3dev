@@ -26,6 +26,3 @@ while True:
     vE = b - kp*dif
     left_motor.run(vE)
     right_motor.run(vD+100)
-
-    
-
