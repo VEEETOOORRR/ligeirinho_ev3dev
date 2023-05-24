@@ -45,10 +45,11 @@ def SeguirLinha():
 def DesviarObstaculo():
     #while (corD.reflection() > 10 and corE.reflection() > 10): 
 
-    sensorD = int(ultraD.distance())/10
+    sensorD = float(ultraD.distance())/10
     vbD = 200
-    velED = ((sensorD-10)**3)/200 + 100
-    velDD = (-(sensorD-10)**3)/200 + 100
+ 
+    velDD = int((-(sensorD-10)**5)/2000 + 200)
+    velED = int(((sensorD-10)**5)/2000 + 200)
 
     motorD.run(velDD)
     motorE.run(velED)
